@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { API_URL } from '../../config'
-import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import postApi from '../../services/postApi'
 
 class Post extends React.Component {
 
 
 
   state = {
-    singleposts: [],
+    singlepost: null,
     error: null,
   };
 
   componentDidMount = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/posts/1`);
-      this.setState({ singleposts: response.data });
+      const data = await postApi.getSinglePost(window.location.pathname);
+      this.setState({ singlepost: data });
     } catch (error) {
       this.setState({ error });
     }
@@ -34,9 +33,9 @@ class Post extends React.Component {
 
       <div className="App">
         <ul>
-          {this.state.singleposts.map(singlepost => (
-            <li key={singlepost.id}>{singlepost.title}</li>
-          ))}
+          {this.state.singlepost &&
+            <li key={this.state.singlepost.id}>{this.state.singlepost.attributes.title}</li>
+          }
         </ul>
       </div>
     );

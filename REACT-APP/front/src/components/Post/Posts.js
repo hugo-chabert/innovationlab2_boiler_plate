@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import CardPost from '../CardPost';
+import postApi from '../../services/postApi'
 
 class Posts extends React.Component {
   state = {
@@ -11,24 +11,23 @@ class Posts extends React.Component {
 
   componentDidMount = async () => {
     try {
-      const response = await axios.get('http://localhost:1337/api/posts?populate=*');
-      this.setState({ posts: response.data.data });
-      console.log(response)
+      const data = await postApi.getPosts();
+      console.log(data)
+      this.setState({ posts: data });
     } catch (error) {
       this.setState({ error });
     }
   };
 
   render() {
-    const { error, post } = this.state;
 
-    if (error) {
-      return <div>An error occured: {error.message}</div>;
+    if (this.state.error) {
+      return <div>An error occured: {this.state.error.message}</div>;
     }
 
     return (
-     
-     
+
+
       <div className="App">
 
       <h1> Last posts</h1>
@@ -36,13 +35,13 @@ class Posts extends React.Component {
         {this.state.posts.map(post => (
 
 
-        <CardPost post={post} key={post.attributes.id} />       
-          
+        <CardPost post={post} key={post.id} />
+
       ))}
         </Grid >
 
       </div>
-    
+
     );
   }
 }
