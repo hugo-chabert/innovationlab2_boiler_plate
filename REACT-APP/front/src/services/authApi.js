@@ -1,14 +1,14 @@
 
-import { URL_LOGIN } from "../config";
+import { API_URL, URL_LOGIN } from "../config";
 import axios from "axios";
 import jwrDecode from "jwt-decode"
 
-function authenticate(credentials){
-    return axios.get(URL_LOGIN, credentials)
-    .then(res => console.log(res))
+async function authenticate(credentials){
+    return await axios.get(`${API_URL}/api/users/1`, credentials)
+    .then(res => {return res.data}).catch(err => {return err})
     // .then(data => {
-    //     window.localStorage.setItem("authToken", data.jwt)
-    //     window.localStorage.setItem("authToken", data.user.username)
+    //     localStorage.setItem("authToken", data.jwt)
+    //     localStorage.setItem("authToken", data.user.username)
     //     axios.defaults.headers["Authorization"] = "Bearer " + data.jwt
     //     console.log(jwtDecode(data.jwt))
 
@@ -16,7 +16,7 @@ function authenticate(credentials){
 }
 
 function isAuthenticated(){
-    const token = window.localStorage.getItem("authToken")
+    const token = localStorage.getItem("authToken")
 
     if(token){
         const {exp: expiration} = jwrDecode(token)

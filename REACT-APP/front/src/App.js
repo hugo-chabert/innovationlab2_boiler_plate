@@ -8,6 +8,7 @@ import Post from './components/Post/Post'
 import Container from '@mui/material/Container';
 import Navbar from './components/Navbar';
 import Contact from './components/Contact/Contact';
+import Account from './components/Account/Account';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -43,6 +44,9 @@ function App() {
             <Button color="inherit">
             <Link to="/about" style={{ color: 'white',textDecoration: 'none' }}>About</Link>
             </Button>
+            <Button color="inherit">
+            <Link to="/account" style={{ color: 'white',textDecoration: 'none' }}>Account</Link>
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
@@ -51,10 +55,11 @@ function App() {
             <Routes>
             <Route path="/" element={<Posts />} />
             <Route path="/posts/:id" element={<Post />} />
-            <Route path="/sign-up" element={<SignUp />} /> 
-              <Route path="/sign-in" element={<LoginForm />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-in" element={<LoginForm />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/contact" element={<Contact />} />
 
             </Routes>
           </div>
