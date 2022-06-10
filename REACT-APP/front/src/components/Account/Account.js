@@ -15,7 +15,7 @@ class Account extends React.Component{
 
     componentDidMount = async () => {
         try {
-            const data = await authApi.authenticate();
+            const data = await authApi.authenticate(localStorage.getItem('id'));
             this.setState({ account: data });
         } catch (error) {
             this.setState({ error });

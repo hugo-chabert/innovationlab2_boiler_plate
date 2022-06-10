@@ -1,69 +1,100 @@
-import React, { useState } from 'react'
-import { TextField } from '@mui/material'
-import { Button } from '@mui/material'
+
+import React, {useState, useEffect} from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import authApi from '../services/authApi'
 
-const LoginForm = () => {
-  const [credentials, setCredentials] = useState ({
-    username: "",
-    password: ""
-  })
 
-  const handleChange = ({currentTarget}) => {
-    console.log(currentTarget)
-    const {value, name} = currentTarget
-    setCredentials(
-     {
-       ...credentials,
-       [name]: value
-     } 
-    )
-  }
 
-  const handleSubmit = async (event) => {
+const theme = createTheme();
+
+export default function Signup() {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try{
-    await  authApi.authenticate(credentials)
-    }catch(error){
-      console.log(error)
-    }
-  }
-
-
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+    authApi.register(data.get('username'), data.get('email'), data.get('password'))
+  };
 
   return (
-
-    <form onSubmit={handleSubmit}>
-      <div>
-      <TextField
-      id="username"
-      label="Username"
-      type="text"
-      name="identifier"
-      onChange={handleChange}
-      />
-      </div>
-      <div>
-      <TextField
-      id="password"
-      label="Password"
-      type="text"
-      name="password"
-      onChange={handleChange}
-      />
-      </div>
-      <div>
-      <Button variant="contained" color="primary" type="submit">
-        Login
-      </Button>
-      </div>
-    </form>
-
-  )
-
-
-
-
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="http://localhost:3000/sign-in" variant="body2">
+                  {"Already have an account? Sign In"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
 }
-
-export default LoginForm;

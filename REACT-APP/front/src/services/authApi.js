@@ -3,16 +3,9 @@ import { API_URL, URL_LOGIN } from "../config";
 import axios from "axios";
 import jwrDecode from "jwt-decode"
 
-async function authenticate(credentials){
-    return await axios.get(`${API_URL}/api/users/1`, credentials)
+async function authenticate(id){
+    return axios.get(`${API_URL}/api/users/${id}`)
     .then(res => {return res.data}).catch(err => {return err})
-    // .then(data => {
-    //     localStorage.setItem("authToken", data.jwt)
-    //     localStorage.setItem("authToken", data.user.username)
-    //     axios.defaults.headers["Authorization"] = "Bearer " + data.jwt
-    //     console.log(jwtDecode(data.jwt))
-
-    // })
 }
 
 function isAuthenticated(){
@@ -24,6 +17,45 @@ function isAuthenticated(){
 
 }
 
+function register(username, email, password){
+    axios
+    .post('http://localhost:1337/api/auth/local/register', {
+        username: `${username}`,
+        email: `${email}`,
+        password: `${password}`,
+    })
+    .then(response => {
+        console.log('User profile', response.data.user);
+        console.log('User token', response.data.jwt);
+    })
+    .catch(error => {
+        console.log('An error occurred:', error.response);
+    });
+}
+
+async function login(username, password){
+    axios
+    .post('http://localhost:1337/api/auth/local', {
+        identifier: `${username}`,
+        password: `${password}`,
+    })
+    .then(response => {
+        // Handle success.
+        console.log('Well done!');
+        console.log('User profile', response.data.user);
+        console.log('User token', response.data.jwt);
+        localStorage.setItem("authToken", response.data.jwt)
+        localStorage.setItem("id", response.data.user.id)
+        axios.defaults.headers["Authorization"] = "Bearer " + response.data.jwt
+    })
+    .catch(error => {
+        // Handle error.
+        console.log('An error occurred:', error.response);
+    });
+}
+
 export default{
-    authenticate
+    authenticate,
+    register,
+    login
 }
