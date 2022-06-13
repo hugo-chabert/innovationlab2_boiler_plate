@@ -24,11 +24,16 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 
 function App() {
 
+  function disconnect(){
+    localStorage.clear();
+    window.location.reload(true);
+  }
+
   return (
 
     <Container>
     <Router>
-      <div className="App">    
+      <div className="App">
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
@@ -46,6 +51,9 @@ function App() {
             </Button>
             <Button color="inherit">
             <Link to="/account" style={{ color: 'white',textDecoration: 'none' }}>Account</Link>
+            </Button>
+            <Button color="inherit" style={{ color: 'red',textDecoration: 'none' }} onClick={disconnect}>
+              Disconnect
             </Button>
           </Toolbar>
         </AppBar>

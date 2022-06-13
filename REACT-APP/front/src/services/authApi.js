@@ -3,11 +3,6 @@ import { API_URL, URL_LOGIN } from "../config";
 import axios from "axios";
 import jwrDecode from "jwt-decode"
 
-async function authenticate(id){
-    return axios.get(`${API_URL}/api/users/${id}`)
-    .then(res => {return res.data}).catch(err => {return err})
-}
-
 function isAuthenticated(){
     const token = localStorage.getItem("authToken")
 
@@ -54,8 +49,8 @@ async function login(username, password){
     });
 }
 
+
 export default{
-    authenticate,
     register,
     login
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
-import postApi from '../../services/userApi'
-import authApi from '../../services/authApi'
+import userApi from '../../services/userApi'
 import '../../assets/account.css';
 
 
@@ -15,7 +14,7 @@ class Account extends React.Component{
 
     componentDidMount = async () => {
         try {
-            const data = await authApi.authenticate(localStorage.getItem('id'));
+            const data = await userApi.profile(localStorage.getItem('id'));
             this.setState({ account: data });
         } catch (error) {
             this.setState({ error });
