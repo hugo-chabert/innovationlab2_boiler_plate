@@ -49,8 +49,25 @@ async function login(username, password){
     });
 }
 
+async function update(username, email, id){
+    axios
+    .put(`http://localhost:1337/api/users/${id}`, {
+        username: `${username}`,
+        email: `${email}`
+    })
+    .then(response => {
+        // Handle success.
+        console.log('Updated!');
+    })
+    .catch(error => {
+        // Handle error.
+        console.log('An error occurred:', error.response);
+    });
+}
+
 
 export default{
     register,
-    login
+    login,
+    update
 }
